@@ -1,0 +1,22 @@
+version: "3.4"
+services:
+  serveurf: #serveur 5052
+    build:
+      context: ./image2 #path ou se trouve image
+    environment: #var d'env print de python sur le console 
+      - PYTHONUNBUFFERED=1
+    network_mode: "host" #type docker0 , 
+    volumes:
+      - ./logs:/app/logs
+      - ./image2:/app
+  clientf:
+    build:
+      context: ./image1
+    environment:
+      - PYTHONUNBUFFERED=1
+    network_mode: "host"
+    volumes:
+      - ./logs:/app/logs
+      - ./image1:/app
+    depends_on: 
+       - serveurf
